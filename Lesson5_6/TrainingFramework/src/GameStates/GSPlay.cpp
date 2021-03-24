@@ -50,7 +50,14 @@ void GSPlay::Init()
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("arialbd");
 	m_score = std::make_shared< Text>(shader, font, "Score: 10", TEXT_COLOR::RED, 1.0);
 	m_score->Set2DPosition(Vector2(50, 50));
-
+	
+	//Animation Coin
+	auto animshader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+	texture = ResourceManagers::GetInstance()->GetTexture("coin");
+	std::shared_ptr<Animation2D> anim = std::make_shared<Animation2D>(model, animshader, texture, 6, 0.1f);
+	anim->Set2DPosition(screenWidth / 2, screenHeight / 2);
+	anim->SetSize(200, 200);
+	m_listAnim.push_back(anim);
 }
 
 void GSPlay::Exit()
@@ -96,6 +103,10 @@ void GSPlay::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
+	//for (auto it : m_listAnim)
+	//{
+	//	it->Update(deltaTime);
+	//}
 
 }
 
@@ -104,6 +115,10 @@ void GSPlay::Draw()
 	m_BackGround->Draw();
 	m_score->Draw();
 	for (auto it : m_listButton)
+	{
+		it->Draw();
+	}
+	for (auto it : m_listAnim)
 	{
 		it->Draw();
 	}
